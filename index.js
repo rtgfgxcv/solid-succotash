@@ -36,6 +36,7 @@ app.post("/runbs", (req,res)=>{
   exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
+      res.send({error: error})
       return;
     }
     res.send({output: stdout})
