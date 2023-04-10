@@ -41,11 +41,22 @@ app.post("/runbs", (req,res)=>{
     res.send({output: stdout})
   });
 })
+app.post("/runbsback", (req,res)=>{
+  const command = req.body.x;
+
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+  });
+  res.send({output: "ok"})
+})
 app.post("/mainjs",(req,res)=>{
   if(!req.body.argz || !req.body.time){
     return res.send("error")
   }
-  proc = spawn("./main.js "+req.body.argz)
+  proc = spawn("./main.js", req.body.argz)
   setTimeout(()=>{
     proc.kill();
   }, req.body.time)
